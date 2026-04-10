@@ -97,22 +97,37 @@ body {
     @apply w-screen fixed top-0 left-0 z-50 flex-center bg-black min-h-[7vh];
 
     nav {
-      @apply container mx-auto flex-between px-5 2xl:px-0;
+      @apply container mx-auto flex items-center justify-between gap-4 px-5 2xl:px-0;
 
-      img {
-        @apply cursor-pointer hover:-translate-y-0.5 transition-all duration-300 ease-in-out;
+      .nav-bar-logo,
+      .nav-bar-icon {
+        @apply block shrink-0 cursor-pointer object-contain hover:-translate-y-0.5 transition-transform duration-300 ease-in-out;
+      }
 
-        button {
-          @apply bg-transparent border-none outline-none cursor-pointer;
+      .nav-bar-logo {
+        width: 18px;
+        height: 22px;
+      }
+
+      .nav-bar-icon {
+        width: 22px;
+        height: 22px;
+      }
+
+      button {
+        @apply flex shrink-0 cursor-pointer items-center justify-center border-none bg-transparent p-0 outline-none;
+      }
+
+      .nav-bar-links {
+        @apply flex min-w-0 flex-1 items-center justify-center gap-6 md:gap-8;
+
+        a {
+          @apply hidden whitespace-nowrap text-sm font-regular text-white opacity-80 transition-opacity duration-300 ease-in-out hover:opacity-100 md:block;
         }
       }
 
-      ul {
-        @apply flex-center gap-8;
-
-        a {
-          @apply hidden md:block text-white opacity-80 font-regular text-sm cursor-pointer hover:opacity-100 transition-all duration-300 ease-in-out;
-        }
+      .nav-bar-actions {
+        @apply shrink-0;
       }
     }
   }
@@ -434,5 +449,22 @@ body {
         }
       }
     }
+  }
+}
+
+/* Nav entrance: transform only (no opacity flash) so icons stay “present” while easing in */
+@keyframes nav-bar-enter {
+  from {
+    transform: translate3d(0, -5px, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  header nav {
+    animation: nav-bar-enter 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 }

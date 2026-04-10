@@ -8,9 +8,17 @@ const NavBar = () => {
   return (
     <header>
       <nav>
-        <img src="/logo.svg" alt="Apple logo" />
+        <img
+          className="nav-bar-logo"
+          src="/logo.svg"
+          alt="Apple logo"
+          width={18}
+          height={22}
+          loading="eager"
+          decoding="sync"
+        />
 
-        <ul>
+        <ul className="nav-bar-links">
           {navLinks.map(({ label }) => (
             <li key={label}>
               <a href={label}>{label}</a>
@@ -18,12 +26,28 @@ const NavBar = () => {
           ))}
         </ul>
 
-        <div className="flex-center gap-3">
-          <button>
-            <img src="/search.svg" alt="Search" />
+        <div className="nav-bar-actions flex-center gap-3">
+          <button type="button" aria-label="Search">
+            <img
+              className="nav-bar-icon"
+              src="/search.svg"
+              alt=""
+              width={22}
+              height={22}
+              loading="eager"
+              decoding="sync"
+            />
           </button>
-          <button>
-            <img src="/cart.svg" alt="Cart" />
+          <button type="button" aria-label="Shopping bag">
+            <img
+              className="nav-bar-icon"
+              src="/cart.svg"
+              alt=""
+              width={22}
+              height={22}
+              loading="eager"
+              decoding="sync"
+            />
           </button>
         </div>
       </nav>
