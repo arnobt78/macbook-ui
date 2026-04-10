@@ -2,27 +2,83 @@
  * Hero: above-the-fold video + headline block.
  * `playbackRate` is nudged after mount so the hero clip feels snappier (browser autoplay rules still apply: muted + playsInline).
  */
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { useEffect, useRef } from "react";
 
 const Hero = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const titleImgRef = useRef<HTMLImageElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const buyRef = useRef<HTMLButtonElement>(null);
+  const priceRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     if (videoRef.current) videoRef.current.playbackRate = 2;
   }, []);
 
+  useGSAP(
+    () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const h1 = headingRef.current;
+      const titleImg = titleImgRef.current;
+      const vid = videoRef.current;
+      const buy = buyRef.current;
+      const price = priceRef.current;
+      if (!h1 || !titleImg || !vid || !buy || !price) return;
+      const ease = "power2.inOut";
+      const enter = {
+        autoAlpha: 0,
+        y: 8,
+        scale: 0.985,
+        duration: 0.52,
+        ease,
+      };
+      const targets = [h1, titleImg, vid, buy, price];
+      const tl = gsap.timeline({
+        defaults: { ease },
+        onComplete: () => {
+          gsap.set(targets, { clearProps: "opacity,visibility,transform" });
+        },
+      });
+      tl.from(h1, enter)
+        .from(titleImg, enter, ">0.07")
+        .from(vid, enter, ">0.08")
+        .from(buy, enter, ">0.08")
+        .from(price, enter, ">0.07");
+    },
+    { scope: sectionRef },
+  );
+
   return (
-    <section id="hero">
-      <div>
-        <h1>MacBook Pro</h1>
-        <img src="/title.png" alt="MacBook Title" />
+    <section id="hero" ref={sectionRef}>
+      <div className="hero-copy">
+        <h1 ref={headingRef}>MacBook Pro</h1>
+        <img
+          ref={titleImgRef}
+          src="/title.png"
+          alt="MacBook Title"
+          loading="eager"
+          decoding="sync"
+        />
       </div>
 
-      <video ref={videoRef} src="/videos/hero.mp4" autoPlay muted playsInline />
+      <div className="hero-video-shell">
+        <video
+          ref={videoRef}
+          src="/videos/hero.mp4"
+          autoPlay
+          muted
+          playsInline
+          width={1920}
+          height={1080}
+        />
+      </div>
 
-      <button>Buy Now</button>
+      <button ref={buyRef}>Buy Now</button>
 
-      <p>From $1599 or $133/mo for 12 months</p>
+      <p ref={priceRef}>From $1599 or $133/mo for 12 months</p>
     </section>
   );
 };

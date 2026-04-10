@@ -2,11 +2,39 @@
  * Top navigation shell: purely presentational (links do not route in this SPA).
  * Labels come from `constants` so you can swap copy in one place.
  */
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useRef } from "react";
 import { navLinks } from "../constants";
 
 const NavBar = () => {
+  const headerRef = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const nav = headerRef.current?.querySelector("nav");
+      if (!nav) return;
+      const targets = [
+        nav.querySelector(".nav-bar-logo"),
+        nav.querySelector(".nav-bar-links"),
+        nav.querySelector(".nav-bar-actions"),
+      ].filter((el): el is Element => el != null);
+      if (!targets.length) return;
+      gsap.from(targets, {
+        autoAlpha: 0,
+        y: 8,
+        scale: 0.985,
+        duration: 0.52,
+        stagger: 0.07,
+        ease: "power2.inOut",
+      });
+    },
+    { scope: headerRef },
+  );
+
   return (
-    <header>
+    <header ref={headerRef}>
       <nav>
         <img
           className="nav-bar-logo"
