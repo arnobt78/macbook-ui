@@ -1,3 +1,7 @@
+/**
+ * Top navigation shell: purely presentational (links do not route in this SPA).
+ * Labels come from `constants` so you can swap copy in one place.
+ */
 import { navLinks } from "../constants";
 
 const NavBar = () => {

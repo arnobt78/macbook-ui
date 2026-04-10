@@ -9,6 +9,10 @@ Source: https://sketchfab.com/3d-models/macbook-pro-m3-16-inch-2024-8e34fc2b3031
 Title: macbook pro M3 16 inch 2024
 */
 
+/**
+ * Features-canvas MacBook: screen uses `useVideoTexture` bound to the Zustand `texture` path.
+ * Body color is applied in `useEffect` by traversing the loaded scene and tinting meshes not listed in `noChangeParts`.
+ */
 import { useEffect } from "react";
 import type { ThreeElements } from "@react-three/fiber";
 import { useGLTF, useVideoTexture } from "@react-three/drei";
@@ -25,9 +29,11 @@ export default function MacbookModel(props: GroupProps) {
     "/models/macbook-transformed.glb",
   ) as unknown as MacbookGLTF;
 
+  // drei hook: uploads video frames to a GPU texture used by `meshBasicMaterial` below.
   const screen = useVideoTexture(texture);
 
   useEffect(() => {
+    // GLTF is a scene graph; traverse lets us batch-edit materials without hard-coding every mesh name.
     scene.traverse((object) => {
       if (!(object instanceof Mesh)) return;
       if (noChangeParts.includes(object.name)) return;
@@ -129,6 +135,7 @@ export default function MacbookModel(props: GroupProps) {
         material={materials.JvMFZolVCdpPqjj}
         rotation={[Math.PI / 2, 0, 0]}
       />
+      {/* Screen quad: separate mesh so we can swap the video texture independently of other PBR materials. */}
       <mesh geometry={nodes.Object_123.geometry} rotation={[Math.PI / 2, 0, 0]}>
         <meshBasicMaterial map={screen} />
       </mesh>
@@ -141,4 +148,5 @@ export default function MacbookModel(props: GroupProps) {
   );
 }
 
+// Preload at module init so the first Features canvas mount hits the browser cache sooner.
 useGLTF.preload("/models/macbook-transformed.glb");

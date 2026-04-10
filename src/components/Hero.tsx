@@ -1,3 +1,7 @@
+/**
+ * Hero: above-the-fold video + headline block.
+ * `playbackRate` is nudged after mount so the hero clip feels snappier (browser autoplay rules still apply: muted + playsInline).
+ */
 import { useEffect, useRef } from "react";
 
 const Hero = () => {

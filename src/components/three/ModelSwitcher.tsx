@@ -1,3 +1,7 @@
+/**
+ * Swaps between two GLTF groups (16" vs 14") based on Zustand `scale`.
+ * `PresentationControls` adds orbit-style interaction; GSAP tweens opacity + X offset for a cross-fade slide.
+ */
 import { useRef } from "react";
 import { PresentationControls } from "@react-three/drei";
 import gsap from "gsap";
@@ -11,6 +15,7 @@ import { useGSAP } from "@gsap/react";
 const ANIMATION_DURATION = 1;
 const OFFSET_DISTANCE = 5;
 
+/** Sets every mesh material in a group to transparent, then fades opacity (handles multi-material meshes). */
 const fadeMeshes = (group: Group | null, opacity: number) => {
   if (!group) return;
 
@@ -26,6 +31,7 @@ const fadeMeshes = (group: Group | null, opacity: number) => {
   });
 };
 
+/** Slides a group's pivot along X (world units) to stage the inactive laptop off-screen. */
 const moveGroup = (group: Group | null, x: number) => {
   if (!group) return;
 

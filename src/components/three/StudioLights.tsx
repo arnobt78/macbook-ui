@@ -1,3 +1,8 @@
+/**
+ * Shared lighting rig for product scenes:
+ * - `Environment` + `Lightformer` cards approximate a studio HDRI without shipping a huge texture file.
+ * - Extra `spotLight`s add specular highlights on metal/plastic surfaces.
+ */
 import { Environment, Lightformer } from "@react-three/drei";
 
 const StudioLights = () => {

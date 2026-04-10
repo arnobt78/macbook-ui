@@ -1,3 +1,7 @@
+/**
+ * Global client store for anything that must sync React DOM + Three.js materials.
+ * `create<MacbookState>()(...)` is Zustand’s typed initializer pattern (v4/v5 compatible).
+ */
 import { create } from "zustand";
 
 export interface MacbookState {

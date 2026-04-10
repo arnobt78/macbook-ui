@@ -1,3 +1,9 @@
+/**
+ * Performance section:
+ * - `useGSAP` scopes selectors to `sectionRef` so ScrollTrigger instances don’t leak across pages.
+ * - Paragraph uses scrubbed `fromTo` for a subtle scroll-linked fade/slide.
+ * - Desktop: timeline repositions each `.p*` image using percentage offsets from `constants` (p5 skipped by design).
+ */
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";

@@ -1,3 +1,9 @@
+/**
+ * Vite build configuration:
+ * - `@vitejs/plugin-react` for Fast Refresh + JSX runtime.
+ * - `@tailwindcss/vite` wires Tailwind v4 without PostCSS boilerplate.
+ * - `manualChunks` splits heavy vendors (three/drei/gsap) to improve caching & parallel download.
+ */
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";

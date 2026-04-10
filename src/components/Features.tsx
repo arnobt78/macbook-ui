@@ -1,3 +1,10 @@
+/**
+ * Features section = stacked layout:
+ * - Full-viewport R3F canvas (`#f-canvas`) pinned while scrolling.
+ * - `ModelScroll` rotates the laptop group and swaps `texture` in Zustand so `useVideoTexture` updates the screen mesh.
+ * - HTML overlay `.box1..5` sits above the canvas (`absolute inset-0`) and animates opacity/position in sync with video changes.
+ * - `featureSequence` preload warms the browser cache for smoother scrubbing (no network API).
+ */
 import { Canvas } from "@react-three/fiber";
 import StudioLights from "./three/StudioLights";
 import { features, featureSequence } from "../constants";

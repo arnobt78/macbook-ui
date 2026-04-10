@@ -1,3 +1,8 @@
+/**
+ * ESLint flat config for TS + React (Vite template style):
+ * - JS config files use the lightweight recommended preset.
+ * - TS/TSX files extend typescript-eslint recommended + React Hooks + React Refresh.
+ */
 import js from "@eslint/js";
 import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";

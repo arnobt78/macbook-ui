@@ -1,3 +1,8 @@
+/**
+ * Showcase: full-bleed background video + masked logo + copy column.
+ * Desktop-only ScrollTrigger timeline pins the section and scrubs mask + content opacity.
+ * On tablet/mobile (`isTablet`) we skip the pinned timeline to avoid cramped layouts.
+ */
 import { useMediaQuery } from "react-responsive";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";

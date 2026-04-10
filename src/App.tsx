@@ -1,3 +1,7 @@
+/**
+ * Root layout: one vertical “page” made of section components (no router).
+ * ScrollTrigger is registered once here so every child `useGSAP` hook can use it safely.
+ */
 import NavBar from "./components/NavBar";
 import Hero from "./components/Hero";
 import ProductViewer from "./components/ProductViewer";

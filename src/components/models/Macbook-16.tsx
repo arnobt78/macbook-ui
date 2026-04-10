@@ -9,6 +9,9 @@ Source: https://sketchfab.com/3d-models/macbook-pro-m3-16-inch-2024-8e34fc2b3031
 Title: macbook pro M3 16 inch 2024
 */
 
+/**
+ * 16" variant for `ModelSwitcher`: same static screen texture pipeline as the 14" asset.
+ */
 import { useEffect } from "react";
 import type { ThreeElements } from "@react-three/fiber";
 import { useGLTF, useTexture } from "@react-three/drei";
@@ -30,6 +33,7 @@ export default function MacbookModel16(props: GroupProps) {
   texture.needsUpdate = true;
 
   useEffect(() => {
+    // Match Macbook-14 tinting: skip keyboard/screen bezel parts enumerated in `noChangeParts`.
     scene.traverse((object) => {
       if (!(object instanceof Mesh)) return;
       if (noChangeParts.includes(object.name)) return;
@@ -143,4 +147,4 @@ export default function MacbookModel16(props: GroupProps) {
   );
 }
 
-useGLTF.preload("/models/macbook-16-transformed.glb");
+useGLTF.preload("/models/macbook-16-transformed.glb"); // warm cache for ProductViewer swaps

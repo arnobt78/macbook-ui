@@ -1,3 +1,9 @@
+/**
+ * Product viewer section:
+ * - Left: Zustand-driven UI (color + 14"/16" scale) updates shared store consumed by GLTF materials.
+ * - Right: R3F `<Canvas>` renders `ModelSwitcher` (two MacBook variants) with suspense while assets load.
+ * - `isMobile` slightly reduces scale so the laptop fits smaller viewports.
+ */
 import { Suspense } from "react";
 import useMacbookStore from "../store";
 import clsx from "clsx";

@@ -1,3 +1,8 @@
+/**
+ * Static content module (no fetch / no API routes):
+ * - Interfaces describe the shape of marketing copy + layout hints consumed by React + GSAP selectors.
+ * - Arrays map 1:1 to JSX `.map` calls; swap strings here to localize or A/B test messaging.
+ */
 export interface NavLink {
   label: string;
 }

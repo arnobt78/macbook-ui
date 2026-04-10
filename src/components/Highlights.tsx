@@ -1,3 +1,7 @@
+/**
+ * Highlights: two-column “masonry” cards with CSS-driven initial offsets/opacity.
+ * GSAP tweens `.left-column` / `.right-column` into view; trigger start differs on mobile vs desktop for better timing.
+ */
 import { useMediaQuery } from "react-responsive";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";

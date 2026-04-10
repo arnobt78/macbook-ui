@@ -1,3 +1,7 @@
+/**
+ * Footer: static legal/support copy + mapped footer links from `constants`.
+ * Year is computed at render time so the copyright line stays current.
+ */
 import { footerLinks } from "../constants";
 
 const Footer = () => {

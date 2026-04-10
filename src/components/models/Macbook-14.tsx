@@ -9,6 +9,10 @@ Source: https://sketchfab.com/3d-models/macbook-pro-m3-16-inch-2024-8e34fc2b3031
 Title: macbook pro M3 16 inch 2024
 */
 
+/**
+ * 14" variant for `ModelSwitcher`: static screen image (`useTexture`) instead of video.
+ * Still recolors chassis meshes from Zustand `color` the same way as the video-driven model.
+ */
 import { useEffect } from "react";
 import type { ThreeElements } from "@react-three/fiber";
 import { useGLTF, useTexture } from "@react-three/drei";
@@ -25,6 +29,7 @@ export default function MacbookModel14(props: GroupProps) {
     "/models/macbook-14-transformed.glb",
   ) as unknown as MacbookGLTF;
 
+  // Static PNG for the smaller SKU (simpler than decoding multiple MP4s simultaneously).
   const texture = useTexture("/screen.png");
   texture.colorSpace = SRGBColorSpace;
   texture.needsUpdate = true;
@@ -143,4 +148,4 @@ export default function MacbookModel14(props: GroupProps) {
   );
 }
 
-useGLTF.preload("/models/macbook-14-transformed.glb");
+useGLTF.preload("/models/macbook-14-transformed.glb"); // warm cache for ProductViewer swaps

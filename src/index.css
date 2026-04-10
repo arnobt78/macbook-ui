@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/*
+ * Walkthrough: Tailwind v4 theme tokens + `@layer components` mirror a page-by-page stylesheet.
+ * Section IDs (`#hero`, `#features`, …) pair with GSAP selectors in TSX—keep names stable when refactoring.
+ */
+
 @font-face {
   font-family: "Regular";
   src: url("/fonts/regular.otf");
