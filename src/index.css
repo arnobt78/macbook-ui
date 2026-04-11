@@ -54,6 +54,7 @@ html {
   width: 100vw;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  scroll-padding-top: max(5.5rem, calc(7vh + 1rem));
 }
 
 body {
@@ -99,6 +100,7 @@ body {
     nav {
       @apply container mx-auto flex items-center justify-between gap-4 px-5 2xl:px-0;
 
+      .nav-bar-logo-link,
       .nav-bar-logo,
       .nav-bar-icon {
         @apply block shrink-0 cursor-pointer object-contain hover:-translate-y-0.5 transition-transform duration-300 ease-in-out;

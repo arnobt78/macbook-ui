@@ -4,11 +4,21 @@
  */
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import { navLinks } from "../constants";
 
 const NavBar = () => {
   const headerRef = useRef<HTMLElement>(null);
+
+  const scrollTopSmooth = useCallback(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+    });
+  }, []);
 
   useGSAP(
     () => {
@@ -37,20 +47,30 @@ const NavBar = () => {
   return (
     <header ref={headerRef}>
       <nav>
-        <img
-          className="nav-bar-logo"
-          src="/logo.svg"
-          alt="Apple logo"
-          width={18}
-          height={22}
-          loading="eager"
-          decoding="sync"
-        />
+        <a
+          href="#"
+          className="nav-bar-logo-link block shrink-0 cursor-pointer"
+          aria-label="Scroll to top"
+          onClick={(e) => {
+            e.preventDefault();
+            scrollTopSmooth();
+          }}
+        >
+          <img
+            className="nav-bar-logo"
+            src="/logo.svg"
+            alt="Apple logo"
+            width={18}
+            height={22}
+            loading="eager"
+            decoding="sync"
+          />
+        </a>
 
         <ul className="nav-bar-links">
-          {navLinks.map(({ label }) => (
+          {navLinks.map(({ label, sectionId }) => (
             <li key={label}>
-              <a href={label}>{label}</a>
+              <a href={`#${sectionId}`}>{label}</a>
             </li>
           ))}
         </ul>

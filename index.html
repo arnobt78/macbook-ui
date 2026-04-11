@@ -163,6 +163,12 @@
     <link rel="preload" href="/mask-logo.svg" as="image" type="image/svg+xml" />
   </head>
   <body>
+    <script>
+      try {
+        history.scrollRestoration = "manual";
+      } catch (_) {}
+      scrollTo(0, 0);
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

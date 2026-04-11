@@ -5,6 +5,7 @@
  */
 export interface NavLink {
   label: string;
+  sectionId: string;
 }
 
 export interface PerformanceImage {
@@ -41,12 +42,12 @@ export interface FooterLink {
 }
 
 const navLinks: NavLink[] = [
-  { label: "Store" },
-  { label: "Mac" },
-  { label: "iPhone" },
-  { label: "Watch" },
-  { label: "Vision" },
-  { label: "AirPods" },
+  { label: "Store", sectionId: "product-viewer" },
+  { label: "Mac", sectionId: "hero" },
+  { label: "iPhone", sectionId: "showcase" },
+  { label: "Watch", sectionId: "performance" },
+  { label: "Vision", sectionId: "features" },
+  { label: "AirPods", sectionId: "highlights" },
 ];
 
 const noChangeParts: string[] = [
