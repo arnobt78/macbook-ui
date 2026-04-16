@@ -103,7 +103,7 @@ body {
       .nav-bar-logo-link,
       .nav-bar-logo,
       .nav-bar-icon {
-        @apply block shrink-0 cursor-pointer object-contain hover:-translate-y-0.5 transition-transform duration-300 ease-in-out;
+        @apply block shrink-0 cursor-pointer object-contain;
       }
 
       .nav-bar-logo {

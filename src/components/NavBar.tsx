@@ -25,21 +25,21 @@ const NavBar = () => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       const nav = headerRef.current?.querySelector("nav");
       if (!nav) return;
-      const targets = [
-        nav.querySelector(".nav-bar-logo"),
-        nav.querySelector(".nav-bar-links"),
-        nav.querySelector(".nav-bar-actions"),
-      ].filter((el): el is Element => el != null);
-      if (!targets.length) return;
-      gsap.from(targets, {
-        autoAlpha: 0,
-        y: 8,
-        scale: 0.985,
-        duration: 0.52,
-        stagger: 0.07,
-        ease: "power2.inOut",
-        immediateRender: true,
-      });
+      gsap.killTweensOf(nav);
+      gsap.fromTo(
+        nav,
+        { autoAlpha: 0, y: 10 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          delay: 0.12,
+          duration: 0.66,
+          ease: "power2.out",
+          overwrite: "auto",
+          immediateRender: true,
+          clearProps: "opacity,visibility,transform",
+        },
+      );
     },
     { scope: headerRef },
   );
