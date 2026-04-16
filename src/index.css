@@ -320,7 +320,26 @@ body {
       @apply mx-auto max-w-xl mt-24;
 
       p {
-        @apply lg:h3-semibold base-semibold text-center translate-y-10 opacity-0 px-5;
+        @apply lg:h3-semibold base-semibold text-center px-5;
+      }
+
+      .performance-line {
+        display: block;
+      }
+
+      &.performance-reveal-ready .performance-line {
+        opacity: 0;
+        transform: translateY(24px) scale(0.985);
+        transition:
+          opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
+          transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+        transition-delay: var(--row-delay, 0ms);
+        will-change: opacity, transform;
+      }
+
+      &.performance-reveal-ready.is-inview .performance-line {
+        opacity: 1;
+        transform: translateY(0) scale(1);
       }
     }
   }
@@ -348,6 +367,23 @@ body {
   #highlights {
     @apply container mx-auto lg:py-40 max-lg:px-5;
 
+    &.highlights-reveal-ready .highlights-subtitle,
+    &.highlights-reveal-ready .highlight-card {
+      opacity: 0;
+      transform: translateY(22px) scale(0.985);
+      transition:
+        opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: var(--hl-delay, 0ms);
+      will-change: opacity, transform;
+    }
+
+    &.highlights-reveal-ready.is-inview .highlights-subtitle,
+    &.highlights-reveal-ready.is-inview .highlight-card {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
     h2 {
       @apply text-white font-semibold text-3xl lg:text-7xl text-center max-w-3xl mx-auto;
     }
@@ -360,7 +396,7 @@ body {
       @apply grid grid-cols-1 lg:grid-cols-2 gap-5 mt-20 text-[#F5F5F7];
 
       .left-column {
-        @apply flex flex-col justify-between gap-5 opacity-0 -translate-y-5;
+        @apply flex flex-col justify-between gap-5;
 
         div:first-of-type {
           @apply h-full bg-[url(/highlight-bg.png)] bg-no-repeat bg-cover p-10 2xl:pt-32 lg:pt-20 rounded-3xl;
@@ -384,7 +420,7 @@ body {
       }
 
       .right-column {
-        @apply flex flex-col justify-between gap-5 opacity-0 -translate-y-5;
+        @apply flex flex-col justify-between gap-5;
 
         p {
           @apply font-semibold text-4xl max-w-2xs;
