@@ -558,13 +558,36 @@ body {
   footer {
     @apply container mx-auto py-7 max-lg:px-5;
 
+    .footer-reveal.content {
+      @apply mx-0 my-0 w-full max-w-none px-0;
+
+      .performance-line {
+        display: block;
+      }
+
+      &.footer-reveal-ready .performance-line {
+        opacity: 0;
+        transform: translateY(24px) scale(0.985);
+        transition:
+          opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
+          transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+        transition-delay: var(--row-delay, 0ms);
+        will-change: opacity, transform;
+      }
+
+      &.footer-reveal-ready.is-inview .performance-line {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
     .info {
       @apply flex-between;
 
       p {
         @apply text-sm font-medium;
 
-        span {
+        .footer-inline-highlight {
           @apply text-primary mx-0.5;
         }
       }
