@@ -367,23 +367,6 @@ body {
   #highlights {
     @apply container mx-auto lg:py-40 max-lg:px-5;
 
-    &.highlights-reveal-ready .highlights-subtitle,
-    &.highlights-reveal-ready .highlight-card {
-      opacity: 0;
-      transform: translateY(22px) scale(0.985);
-      transition:
-        opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
-        transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
-      transition-delay: var(--hl-delay, 0ms);
-      will-change: opacity, transform;
-    }
-
-    &.highlights-reveal-ready.is-inview .highlights-subtitle,
-    &.highlights-reveal-ready.is-inview .highlight-card {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
     h2 {
       @apply text-white font-semibold text-3xl lg:text-7xl text-center max-w-3xl mx-auto;
     }
@@ -402,6 +385,49 @@ body {
     }
 
     .highlights-subtitle-reveal.is-inview {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .first-highlight-reveal {
+      opacity: 0;
+      transform: translateY(22px) scale(0.96);
+      transition:
+        opacity 680ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+
+    .first-highlight-reveal.is-inview {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .second-highlight-reveal {
+      opacity: 0;
+      transform: translateY(22px) scale(0.96);
+      transition:
+        opacity 840ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 840ms cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+
+    .second-highlight-reveal.is-inview {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .fourth-highlight-reveal {
+      opacity: 0;
+      transform: translateY(22px) scale(0.96);
+      transition:
+        opacity 980ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 980ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: 180ms;
+      will-change: opacity, transform;
+    }
+
+    .fourth-highlight-reveal.is-inview {
       opacity: 1;
       transform: translateY(0) scale(1);
     }
@@ -497,6 +523,7 @@ body {
         }
       }
     }
+
   }
 
   footer {

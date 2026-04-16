@@ -10,6 +10,9 @@ import { useEffect, useRef } from "react";
 const Highlights = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
   const subtitleRef = useRef<HTMLHeadingElement>(null);
+  const firstCardRef = useRef<HTMLDivElement>(null);
+  const secondCardRef = useRef<HTMLDivElement>(null);
+  const fourthCardRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     gsap.to([".left-column", ".right-column"], {
@@ -42,6 +45,57 @@ const Highlights = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const firstCard = firstCardRef.current;
+    if (!firstCard) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          firstCard.classList.add("is-inview");
+        } else {
+          firstCard.classList.remove("is-inview");
+        }
+      },
+      { threshold: 0.35, rootMargin: "0px 0px -12% 0px" },
+    );
+    observer.observe(firstCard);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const secondCard = secondCardRef.current;
+    if (!secondCard) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          secondCard.classList.add("is-inview");
+        } else {
+          secondCard.classList.remove("is-inview");
+        }
+      },
+      { threshold: 0.35, rootMargin: "0px 0px -12% 0px" },
+    );
+    observer.observe(secondCard);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const fourthCard = fourthCardRef.current;
+    if (!fourthCard) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          fourthCard.classList.add("is-inview");
+        } else {
+          fourthCard.classList.remove("is-inview");
+        }
+      },
+      { threshold: 0.35, rootMargin: "0px 0px -12% 0px" },
+    );
+    observer.observe(fourthCard);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section id="highlights">
       <h2>There’s never been a better time to upgrade.</h2>
@@ -51,11 +105,11 @@ const Highlights = () => {
 
       <div className="masonry">
         <div className="left-column">
-          <div>
+          <div ref={firstCardRef} className="first-highlight-reveal">
             <img src="/laptop.png" alt="Laptop" />
             <p>Fly through demanding tasks up to 9.8x faster.</p>
           </div>
-          <div>
+          <div ref={secondCardRef} className="second-highlight-reveal">
             <img src="/sun.png" alt="Sun" />
             <p>
               A stunning <br />
@@ -72,15 +126,13 @@ const Highlights = () => {
               <span>Apple Intelligence.</span>
             </p>
           </div>
-          <div>
+          <div ref={fourthCardRef} className="fourth-highlight-reveal">
             <img src="/battery.png" alt="Battery" />
             <p>
               Up to
-              <span className="green-gradient">{" "}14 more hours{" "}</span>
+              <span className="green-gradient"> 14 more hours </span>
               battery life.
-              <span className="text-dark-100">
-                {" "}(Up to 24 hours total.)
-              </span>
+              <span className="text-dark-100"> (Up to 24 hours total.)</span>
             </p>
           </div>
         </div>
