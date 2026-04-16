@@ -1,7 +1,9 @@
 /**
- * Static content module (no fetch / no API routes):
- * - Interfaces describe the shape of marketing copy + layout hints consumed by React + GSAP selectors.
- * - Arrays map 1:1 to JSX `.map` calls; swap strings here to localize or A/B test messaging.
+ * Static content module — no `fetch`, no REST/GraphQL, no server routes in this repo.
+ *
+ * - Types document the shape of marketing data used by components and GSAP/CSS selectors.
+ * - Arrays are the single source of truth for nav labels, footer links, feature copy, etc.
+ * - `noChangeParts`: GLTF node names excluded from certain material tweaks (3D pipeline detail).
  */
 export interface NavLink {
   label: string;
@@ -171,6 +173,7 @@ const footerLinks: FooterLink[] = [
   { label: "Site Map", link: "#" },
 ];
 
+// Named exports keep import sites explicit (`import { navLinks } from "../constants"`).
 export {
   features,
   featureSequence,

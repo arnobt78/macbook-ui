@@ -1,7 +1,10 @@
 /**
- * Showcase: full-bleed background video + masked logo + copy column.
- * Desktop-only ScrollTrigger timeline pins the section and scrubs mask + content opacity.
- * On tablet/mobile (`isTablet`) we skip the pinned timeline to avoid cramped layouts.
+ * Showcase (`#showcase`) — layered media + copy.
+ *
+ * - Background `<video>` + `.mask` image: parallax-style visual (see GSAP scale on `.mask img`).
+ * - Desktop: ScrollTrigger `pin: true` holds the section while scrubbing — intentionally skipped on
+ *   tablet/mobile (`isTablet`) where pin would feel cramped or janky.
+ * - Copy column: `IntersectionObserver` + `.showcase-row` stagger (CSS in `index.css`), not GSAP text.
  */
 import { useMediaQuery } from "react-responsive";
 import { useGSAP } from "@gsap/react";
@@ -12,6 +15,7 @@ const Showcase = () => {
   const isTablet = useMediaQuery({ query: "(max-width: 1024px)" });
   const contentRef = useRef<HTMLDivElement>(null);
 
+  // Pinned scroll scene: only when not tablet; `scrub: true` ties animation progress to scroll position.
   useGSAP(() => {
     if (!isTablet) {
       const timeline = gsap.timeline({
@@ -32,6 +36,7 @@ const Showcase = () => {
 
   }, [isTablet]);
 
+  // Row stagger for marketing copy — independent of the pin timeline above.
   useEffect(() => {
     const contentEl = contentRef.current;
     if (!contentEl) return;

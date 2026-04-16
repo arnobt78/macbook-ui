@@ -19,12 +19,14 @@ import useMacbookStore from "../store";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
+// R3F sub-tree for the Features canvas: owns the laptop group + scroll-linked GSAP timelines.
 const ModelScroll = () => {
   const groupRef = useRef<Group>(null);
   const centerRef = useRef<Group>(null);
   const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
   const { setTexture } = useMacbookStore();
 
+  // Centers the loaded GLTF under a nested group so rotation/scrub reads visually stable.
   useEffect(() => {
     const root = groupRef.current;
     const center = centerRef.current;
@@ -51,6 +53,7 @@ const ModelScroll = () => {
     return () => cancelAnimationFrame(frame);
   }, [isMobile]);
 
+  // Warm browser cache for feature videos (still static files under `/public`, not an API).
   useEffect(() => {
     featureSequence.forEach((feature) => {
       const v = document.createElement("video");
@@ -67,6 +70,7 @@ const ModelScroll = () => {
     });
   }, []);
 
+  // Two timelines share one scroll range: one pins + rotates model; the other scrubs UI boxes + texture swaps.
   useGSAP(() => {
     const modelTimeline = gsap.timeline({
       scrollTrigger: {
@@ -149,6 +153,7 @@ const Features = () => {
         <ModelScroll />
       </Canvas>
 
+      {/* HTML overlay: sibling of `<Canvas>` but `absolute inset-0` stacks copy/icons above the WebGL layer. */}
       <div className="absolute inset-0">
         {features.map((feature, index) => (
           <div

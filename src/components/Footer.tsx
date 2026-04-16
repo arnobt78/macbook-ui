@@ -1,6 +1,9 @@
 /**
- * Footer: static legal/support copy + mapped footer links from `constants`.
- * Year is computed at render time so the copyright line stays current.
+ * Footer — legal strip + links; no API calls.
+ *
+ * Reveal pattern mirrors `Performance` copy: rows use `.performance-line` + CSS transitions,
+ * driven by `IntersectionObserver` toggling `footer-reveal-ready` / `is-inview` on the shell.
+ * Avoid Tailwind’s utility class name `content` on this wrapper (it maps to CSS `content:` and can break prod builds).
  */
 import { useEffect, useRef } from "react";
 import { footerLinks } from "../constants";
@@ -9,6 +12,7 @@ const Footer = () => {
   const footerRef = useRef<HTMLElement>(null);
   const revealRef = useRef<HTMLDivElement>(null);
 
+  // Stagger delays are written as CSS variables so the same transition rules can stay in `index.css`.
   useEffect(() => {
     const shell = revealRef.current;
     if (!shell) return;
@@ -20,6 +24,7 @@ const Footer = () => {
       row.style.setProperty("--row-delay", `${index * 70}ms`);
     });
     shell.classList.add("footer-reveal-ready");
+    // Extra sync: intersection timing can differ in production; this avoids stuck `opacity: 0` on first paint.
     const syncInView = () => {
       const rect = shell.getBoundingClientRect();
       const vh = window.innerHeight || document.documentElement.clientHeight;

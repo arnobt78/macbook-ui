@@ -1,7 +1,10 @@
 /**
- * Application entry (Vite SPA):
- * - Mounts React into the single `#root` div from `index.html`.
- * - StrictMode helps catch unsafe side-effects in development (double-invokes some lifecycles).
+ * Application entry (Vite SPA) — `index.html` loads this module as `type="module"`.
+ *
+ * Flow: import global styles → resolve `#root` → `createRoot().render(<App />)`.
+ *
+ * StrictMode (dev): intentionally double-invokes some effects to surface bugs; GSAP-heavy
+ * components sometimes need guards if animations must run strictly once per mount.
  */
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";

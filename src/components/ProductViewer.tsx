@@ -1,8 +1,9 @@
 /**
- * Product viewer section:
- * - Left: Zustand-driven UI (color + 14"/16" scale) updates shared store consumed by GLTF materials.
- * - Right: R3F `<Canvas>` renders `ModelSwitcher` (two MacBook variants) with suspense while assets load.
- * - `isMobile` slightly reduces scale so the laptop fits smaller viewports.
+ * Product viewer (`#product-viewer`) — React DOM controls + WebGL canvas.
+ *
+ * State: `useMacbookStore` (Zustand) holds `color`, `scale`, `screen texture path` shared with Three materials.
+ * 3D: `@react-three/fiber` `<Canvas>` hosts lights + `ModelSwitcher` (GLTF swap / cross-fade logic inside).
+ * Responsiveness: `isMobile` nudges the passed `scale` prop so framing stays comfortable on narrow screens.
  */
 import { Suspense } from "react";
 import useMacbookStore from "../store";
@@ -66,6 +67,7 @@ const ProductViewer = () => {
         </div>
       </div>
 
+      {/* R3F canvas: `id="canvas"` pairs with CSS sizing in `index.css` (#product-viewer #canvas). */}
       <Canvas
         id="canvas"
         camera={{ position: [0, 2, 5], fov: 50, near: 0.1, far: 100 }}

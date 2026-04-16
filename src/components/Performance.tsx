@@ -1,8 +1,10 @@
 /**
- * Performance section:
- * - `useGSAP` scopes selectors to `sectionRef` so ScrollTrigger instances don’t leak across pages.
- * - Paragraph uses scrubbed `fromTo` for a subtle scroll-linked fade/slide.
- * - Desktop: timeline repositions each `.p*` image using percentage offsets from `constants` (p5 skipped by design).
+ * Performance section (`#performance`) — two layers of motion:
+ *
+ * 1) GSAP + ScrollTrigger (desktop only): scrubbed timeline moves absolutely-positioned `.p*` images
+ *    while the user scrolls through the section (`p5` is intentionally skipped in the loop).
+ * 2) CSS + IntersectionObserver: long marketing paragraph uses `.performance-line` rows with staggered
+ *    `--row-delay`, same pattern as other “reveal on viewport” sections.
  */
 import { useEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
@@ -15,6 +17,7 @@ const Performance = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  // Scroll-scrubbed layout animation — disabled on small screens where the collage layout would collide.
   useGSAP(
     () => {
       const sectionEl = sectionRef.current;
@@ -51,6 +54,7 @@ const Performance = () => {
     { scope: sectionRef, dependencies: [isMobile] },
   );
 
+  // Viewport text reveal: class toggling keeps logic parallel to Showcase/Footer “ready + is-inview” pattern.
   useEffect(() => {
     const contentEl = contentRef.current;
     if (!contentEl) return;

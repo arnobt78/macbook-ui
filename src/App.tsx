@@ -1,6 +1,11 @@
 /**
- * Root layout: one vertical “page” made of section components (no router).
- * ScrollTrigger is registered once here so every child `useGSAP` hook can use it safely.
+ * Root layout: single-page marketing flow (no React Router).
+ *
+ * Sections map to hash links in `constants.navLinks` (e.g. `#hero`, `#showcase`).
+ * There is no backend API in this demo — all copy and assets are static imports / public URLs.
+ *
+ * GSAP: `ScrollTrigger` is registered once here so any descendant `useGSAP` can attach
+ * scroll-linked timelines without re-registering the plugin.
  */
 import NavBar from "./components/NavBar";
 import Hero from "./components/Hero";
@@ -17,6 +22,8 @@ import Footer from "./components/Footer";
 gsap.registerPlugin(ScrollTrigger);
 
 const App = () => {
+  // Runs after DOM updates: keeps refresh/navigation from restoring an old scroll position
+  // (pairs with the inline script in index.html for first-paint behavior).
   useLayoutEffect(() => {
     window.history.scrollRestoration = "manual";
     window.scrollTo(0, 0);

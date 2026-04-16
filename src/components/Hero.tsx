@@ -1,6 +1,10 @@
 /**
- * Hero: above-the-fold video + headline block.
- * `playbackRate` is nudged after mount so the hero clip feels snappier (browser autoplay rules still apply: muted + playsInline).
+ * Hero — first viewport section (`#hero`): headline, title image, muted autoplay video, CTA, price.
+ *
+ * Animation model (CSS + observers, not GSAP here):
+ * - `hero-stagger` / `hero-reveal-item`: staggered fade/slide for text + CTA; `--hero-delay` per element.
+ * - Separate `IntersectionObserver` on the video shell: restart clip from `currentTime = 0` on each entry.
+ * - `data-hero-cta-ready` on `#root`: works with `index.html` to hide the Buy button until JS is ready (anti-flash).
  */
 import { useEffect, useRef } from "react";
 
@@ -13,10 +17,13 @@ const Hero = () => {
   const buyRef = useRef<HTMLButtonElement>(null);
   const priceRef = useRef<HTMLParagraphElement>(null);
 
+  // Hero video: small UX tweak — faster perceived motion (still respects autoplay mute rules).
   useEffect(() => {
     if (videoRef.current) videoRef.current.playbackRate = 2;
   }, []);
 
+  // Viewport orchestration: section vs video shell are observed separately so the video can
+  // replay independently while the headline/CTA block follows the whole `#hero` visibility.
   useEffect(() => {
     const root = document.getElementById("root");
     const section = sectionRef.current;
@@ -32,6 +39,7 @@ const Hero = () => {
     }
     videoShell.classList.add("hero-video-reveal");
     section.classList.add("hero-stagger");
+    // One-frame geometry check: ensures first paint matches IO state (helps dev StrictMode / fast loads).
     const syncSectionInView = () => {
       const rect = section.getBoundingClientRect();
       const viewportHeight =
@@ -65,6 +73,7 @@ const Hero = () => {
     sectionObserver.observe(section);
     videoObserver.observe(videoShell);
     syncSectionInView();
+    // Defer unmasking the CTA until after layout: pairs with critical CSS in index.html.
     const ctaUnmaskId = window.requestAnimationFrame(() => {
       root?.setAttribute("data-hero-cta-ready", "");
     });

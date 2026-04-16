@@ -1,6 +1,8 @@
 /**
- * Global client store for anything that must sync React DOM + Three.js materials.
- * `create<MacbookState>()(...)` is Zustand’s typed initializer pattern (v4/v5 compatible).
+ * Zustand store — tiny global client state shared between React UI and R3F materials.
+ *
+ * There is no persistence layer: values reset on full page reload. `reset()` restores marketing defaults.
+ * `create<MacbookState>()(...)` is the typed initializer pattern used by Zustand v4/v5.
  */
 import { create } from "zustand";
 

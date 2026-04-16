@@ -1,4 +1,12 @@
 <!doctype html>
+<!--
+  Project shell (Vite + React SPA): this file ships before any JS bundle.
+  - Inline <style>: avoids a white flash while Tailwind/CSS loads (critical path).
+  - Hero CTA mask: hides “Buy Now” until React sets data-hero-cta-ready (prevents flash of button on black screen).
+  - Preload/prefetch: hints the browser to fetch fonts, GLBs, hero video early for smoother first paint.
+  - Body script: disables browser scroll restoration + scrolls to top before React hydrates (matches App.tsx intent).
+  - #root: mount point for createRoot() in src/main.tsx.
+-->
 <html lang="en">
   <head>
     <meta charset="UTF-8" />

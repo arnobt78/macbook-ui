@@ -1,6 +1,8 @@
 /**
- * Swaps between two GLTF groups (16" vs 14") based on Zustand `scale`.
- * `PresentationControls` adds orbit-style interaction; GSAP tweens opacity + X offset for a cross-fade slide.
+ * Product viewer 3D brain: swaps between two GLTF variants (14" vs 16") when Zustand `scale` changes.
+ *
+ * - `PresentationControls` (drei): orbit-style drag; combined with `AutoSpinGroup` for idle rotation.
+ * - `fadeMeshes` / `moveGroup`: helper tweens for cross-fade + lateral staging between the two scenes.
  */
 import { useRef, type ReactNode } from "react";
 import { useFrame } from "@react-three/fiber";
@@ -19,6 +21,7 @@ const AUTO_Y_RAD_PER_SEC = 0.11;
 
 const AutoSpinGroup = ({ children }: { children: ReactNode }) => {
   const spinRef = useRef<Group>(null);
+  // Slow constant Y rotation in radians/sec; skipped when user prefers reduced motion.
   useFrame((_, delta) => {
     const g = spinRef.current;
     if (!g) return;

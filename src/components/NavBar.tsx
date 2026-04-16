@@ -1,6 +1,10 @@
 /**
- * Top navigation shell: purely presentational (links do not route in this SPA).
- * Labels come from `constants` so you can swap copy in one place.
+ * Fixed top navigation — presentational only (no client-side router).
+ *
+ * - Center links use native `href="#sectionId"` for in-page jumps; `index.css` sets `scroll-padding-top`
+ *   so anchors clear the fixed header.
+ * - Logo click scrolls to top with reduced-motion awareness.
+ * - Entrance: single GSAP tween on `<nav>` (fade + slight translate); `killTweensOf` avoids overlap on remount.
  */
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -20,6 +24,7 @@ const NavBar = () => {
     });
   }, []);
 
+  // `scope: headerRef` limits GSAP selector context and auto-cleans on unmount (via @gsap/react).
   useGSAP(
     () => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;

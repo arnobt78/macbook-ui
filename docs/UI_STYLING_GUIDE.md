@@ -20,6 +20,8 @@ This document provides a comprehensive guide to the styling patterns, color sche
 12. [Transparency & Blur](#transparency--blur)
 13. [Border Patterns](#border-patterns)
 14. [Responsive Design](#responsive-design)
+15. [GSAP and ScrollTrigger](#gsap-and-scrolltrigger)
+16. [IntersectionObserver viewport reveals](#intersectionobserver-viewport-reveals)
 
 ---
 
@@ -785,6 +787,90 @@ hover:border-sky-300/50
 
 ---
 
+## GSAP and ScrollTrigger
+
+This project uses **GSAP** in two different ways—learn to tell them apart when reading or extending the code.
+
+### 1. ScrollTrigger timelines (`useGSAP` in components)
+
+**What it is:** [GSAP ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/) runs a **timeline** when the user scrolls. Options like **`scrub`** tie animation progress directly to scroll position; **`pin: true`** “sticks” a section while scroll continues through a virtual distance.
+
+**Where in this repo**
+
+- `src/App.tsx` — `gsap.registerPlugin(ScrollTrigger)` **once** for the whole app.
+- `src/components/Showcase.tsx` — desktop-only **pin + scrub** on `#showcase` for the mask/video feel.
+- `src/components/Performance.tsx` — scrubbed timeline moves `.p1`…`.p7` image positions (desktop).
+- `src/components/Features.tsx` — pinned `#f-canvas` timeline: model rotation + `.box*` opacity + `setTexture` calls.
+- `src/components/Highlights.tsx` — column entrance with `ScrollTrigger` trigger bounds that differ on mobile vs desktop.
+- `src/components/NavBar.tsx` — simple **entrance** tween (not scroll-linked).
+
+**Minimal ScrollTrigger pattern (conceptual)**
+
+```ts
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.to(".someElement", {
+  scrollTrigger: {
+    trigger: "#section-id",
+    start: "top center",
+    end: "bottom top",
+    scrub: 1,
+  },
+  opacity: 1,
+  y: 0,
+});
+```
+
+**`@gsap/react` `useGSAP`:** wraps setup/cleanup so tweens created inside the callback are reverted when the component unmounts or dependencies change. Prefer **`{ scope: sectionRef }`** so selectors like `".box1"` resolve under a subtree, not the whole document.
+
+### 2. Time-based tweens (no scroll)
+
+Used for **navbar intro** and similar: a normal `gsap.fromTo` with `duration` / `delay`, not scrubbed by scroll.
+
+### 3. `prefers-reduced-motion`
+
+Some paths check `window.matchMedia("(prefers-reduced-motion: reduce)")` to skip or soften motion. When adding new animations, keep **accessibility** in mind and mirror that pattern.
+
+---
+
+## IntersectionObserver viewport reveals
+
+Several sections avoid GSAP for **line-by-line** or **row-by-row** reveals and use a **hybrid** pattern instead:
+
+1. **TypeScript:** `IntersectionObserver` toggles a class such as `is-inview` on a container when it enters/leaves the viewport.
+2. **CSS (`src/index.css`):** children start at `opacity: 0` + `transform`, then transition to visible when the parent has both a “ready” class and `is-inview`.
+
+**Examples in this repo**
+
+- **Performance** paragraph: `.performance-reveal-ready` + `.performance-line` + `--row-delay`.
+- **Showcase** copy: `.showcase-reveal-ready` + `.showcase-row`.
+- **Footer:** `.footer-reveal-ready` + `.performance-line` rows (do not use Tailwind’s bare `content` class on the same wrapper—see root `README.md`).
+- **Hero:** `hero-stagger` / `hero-reveal-item` with CSS variable `--hero-delay`; separate observer for the **video shell**.
+
+**Why both GSAP and this pattern?**
+
+- ScrollTrigger excels at **scroll-scrubbed** or **pinned** scenes.
+- **IntersectionObserver + CSS** is often simpler for **staggered text lines** and replays on every enter/exit without managing timeline `restart()` / `reverse()` for each case.
+
+**Stagger via CSS custom property (pattern)**
+
+```tsx
+rows.forEach((row, index) => {
+  row.style.setProperty("--row-delay", `${index * 70}ms`);
+});
+```
+
+```css
+.child {
+  transition-delay: var(--row-delay, 0ms);
+}
+```
+
+---
+
 ## Notes & Best Practices
 
 1. **Always use `backdrop-blur-sm`** on cards, inputs, buttons, and badges for glassmorphism
@@ -798,6 +884,7 @@ hover:border-sky-300/50
 
 ---
 
-**Last Updated**: Based on feedback-widget project styling patterns
-**Framework**: Tailwind CSS with custom opacity values and colored shadows
+**Last Updated**: Includes macbook-ui–specific **GSAP / ScrollTrigger** and **IntersectionObserver + CSS** reveal notes alongside general Tailwind patterns.
+
+**Framework**: Tailwind CSS with custom opacity values and colored shadows (macbook-ui landing page)
 

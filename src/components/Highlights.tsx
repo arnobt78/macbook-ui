@@ -1,6 +1,9 @@
 /**
- * Highlights: two-column “masonry” cards with CSS-driven initial offsets/opacity.
- * GSAP tweens `.left-column` / `.right-column` into view; trigger start differs on mobile vs desktop for better timing.
+ * Highlights (`#highlights`) — marketing card grid.
+ *
+ * - Columns: GSAP `ScrollTrigger` fades/slides `.left-column` / `.right-column` (see `useGSAP` below).
+ * - Individual cards / subtitle: separate `IntersectionObserver` hooks toggle `is-inview` classes
+ *   (CSS transitions live in `index.css`) — this isolates tricky cards from the main GSAP path.
  */
 import { useMediaQuery } from "react-responsive";
 import { useGSAP } from "@gsap/react";
@@ -14,6 +17,7 @@ const Highlights = () => {
   const secondCardRef = useRef<HTMLDivElement>(null);
   const fourthCardRef = useRef<HTMLDivElement>(null);
 
+  // Column-level entrance (single tween); per-card polish is handled by observers further down.
   useGSAP(() => {
     gsap.to([".left-column", ".right-column"], {
       scrollTrigger: {
