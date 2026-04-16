@@ -5,9 +5,11 @@
 import { useMediaQuery } from "react-responsive";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useEffect, useRef } from "react";
 
 const Highlights = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
+  const subtitleRef = useRef<HTMLHeadingElement>(null);
 
   useGSAP(() => {
     gsap.to([".left-column", ".right-column"], {
@@ -23,10 +25,29 @@ const Highlights = () => {
     });
   }, [isMobile]);
 
+  useEffect(() => {
+    const subtitle = subtitleRef.current;
+    if (!subtitle) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          subtitle.classList.add("is-inview");
+        } else {
+          subtitle.classList.remove("is-inview");
+        }
+      },
+      { threshold: 0.45, rootMargin: "0px 0px -10% 0px" },
+    );
+    observer.observe(subtitle);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section id="highlights">
       <h2>There’s never been a better time to upgrade.</h2>
-      <h3>Here’s what you get with the new MacBook Pro.</h3>
+      <h3 ref={subtitleRef} className="highlights-subtitle-reveal">
+        Here’s what you get with the new MacBook Pro.
+      </h3>
 
       <div className="masonry">
         <div className="left-column">

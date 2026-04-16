@@ -392,6 +392,20 @@ body {
       @apply text-[#F5F5F7] font-semibold text-xl lg:text-3xl text-center mt-10;
     }
 
+    .highlights-subtitle-reveal {
+      opacity: 0;
+      transform: translateY(18px) scale(0.96);
+      transition:
+        opacity 760ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+
+    .highlights-subtitle-reveal.is-inview {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
     .masonry {
       @apply grid grid-cols-1 lg:grid-cols-2 gap-5 mt-20 text-[#F5F5F7];
 
